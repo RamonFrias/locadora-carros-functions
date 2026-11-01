@@ -1,0 +1,9 @@
+{
+    "grupoRecursos":  "rg-locadora-carros",
+    "local":  "brazilsouth",
+    "storage":  "stlocadorafn3yndp",
+    "app":  "locadora-carros-fn-3yndp",
+    "sqlServer":  "locadora-carros-fn-sql-3yndp",
+    "banco":  "locadora_carros",
+    "sqlAdmin":  "locadoraadmin"
+}

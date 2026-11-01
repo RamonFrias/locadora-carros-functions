@@ -40,6 +40,31 @@ Endereços:
 
 As duas versões usam o **mesmo banco** e a **mesma chave JWT de desenvolvimento**. Os usuários de teste são os mesmos, e um token gerado numa versão vale na outra.
 
+## Na Azure
+
+Publicada em **https://locadora-carros-fn-3yndp.azurewebsites.net/api**, com a documentação em **/api/scalar**.
+
+| Recurso | Plano | Custo |
+|---|---|---|
+| Function App `locadora-carros-fn-3yndp` | Flex Consumption, 512 MB por instância, .NET 10 isolated | Cota gratuita mensal (100 mil GB-s e 250 mil execuções) |
+| Azure SQL `locadora-carros-fn-sql-3yndp` / `locadora_carros` | Oferta gratuita, serverless | Grátis; **pausa** ao esgotar a cota mensal em vez de cobrar |
+| Storage Account `stlocadorafn3yndp` | Standard LRS (obrigatória para o Functions) | Centavos por mês |
+
+Tudo fica no grupo de recursos `rg-locadora-carros`, região Brazil South. A senha do SQL, a chave JWT e a senha dos usuários de teste foram geradas pelo script e estão só nas configurações do Function App (portal → Function App → Variáveis de ambiente).
+
+Scripts em `deploy/`:
+
+```bash
+# Uma vez por assinatura nova (evita o erro "SubscriptionNotFound")
+powershell -ExecutionPolicy Bypass -File .\deploy\azure-registrar-provedores.ps1
+# Cria ou atualiza a infraestrutura (reaproveita os nomes de deploy/azure.json)
+powershell -ExecutionPolicy Bypass -File .\deploy\azure-provisionar.ps1
+# Publica uma nova versão do código
+powershell -ExecutionPolicy Bypass -File .\deploy\azure-publicar.ps1
+```
+
+Atenção: rodar o `azure-provisionar.ps1` de novo **troca a senha do SQL** e atualiza a connection string junto. A chave JWT e a senha dos usuários de teste são mantidas.
+
 ## Estrutura
 
 ```
